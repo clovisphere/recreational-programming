@@ -1,6 +1,5 @@
 // Given two strings s and t, return true if t is an anagram of s,
 // and false otherwise.
-#include <iostream>
 #include <string>
 #include <unordered_map>
 
@@ -18,11 +17,4 @@ bool isAnagram(std::string s, std::string t) {
       return false;
   }
   return true;
-}
-
-// start program execution
-int main(void) {
-  std::cout << isAnagram("barbie", "oppenheimer") << std::endl;
-  std::cout << isAnagram("race", "care") << std::endl;
-  return 0;
 }
