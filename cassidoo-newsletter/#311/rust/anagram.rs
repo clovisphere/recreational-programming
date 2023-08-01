@@ -12,5 +12,5 @@ fn transform(w: &str) -> Vec<char> {
 }
 
 pub fn is_anagram(s: &str, t: &str) -> bool {
-    transform(s) == transform(b)
+    transform(s) == transform(t)
 }
