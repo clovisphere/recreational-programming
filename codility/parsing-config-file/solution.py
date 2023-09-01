@@ -8,22 +8,20 @@ class Helper:
         # what we consider to be valid 'bool' 😊
         booleans = { 'truthy': ['true', 'yes', 'on'], 'falsy': ['false', 'no', 'off'] }
         key, value = line.split('=')
-        pair = cls.is_number_or_none(value)
-        if pair[0]:
-            value = pair[1]
+        if cls.is_number(value):
+            value = float(value) if '.' in value else int(value)
         elif value.lower() in set(chain(*booleans.values())):
             value = False if value.lower() in booleans['falsy'] else True
         return key, value
 
     @staticmethod
-    def is_number_or_none(s: str) -> list[bool|Any]:
-        result = [False, None]
+    def is_number(s: str) -> bool:
+        """Returns True if s is a valid int/float, False otherwise."""
         try:
-            number = float(s) if '.' in s else int(s)
-            result[0], result[1] = True, number
+            _ = float(s)
+            return True
         except ValueError:
-            pass
-        return result
+            return False
 
 
 def parse_config(path: str) -> dict[Any, Any]:
@@ -32,7 +30,7 @@ def parse_config(path: str) -> dict[Any, Any]:
         for line in (line.strip() for line in file if line.strip()):
             if line.startswith(';'): continue
             elif line.startswith('[') and line.endswith(']'):
-                section = line.replace('[', '').replace(']', '').strip()
+                section = line.replace('[', '', 1).replace(']', '', 1).strip()
                 config[section] = {}
             elif line.count('=') == 1:
                 key, value = Helper.extract_key_value(line)
